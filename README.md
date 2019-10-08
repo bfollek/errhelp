@@ -12,7 +12,7 @@ if err != nil {
 with
 
 ```
-import blah blah
+import eh "github.com/bfollek/errhelp"
 
 usr, err := user.Current()
 eh.FatalIfError("getting current user", err)
