@@ -1,3 +1,4 @@
+// Package errhelp provides simple helper functions to make golang error handling easier.
 package errhelp
 
 import "log"
