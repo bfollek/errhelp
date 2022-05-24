@@ -5,7 +5,7 @@ Simple helper functions to make golang error handling easier. They reduce the bo
 ```
 usr, err := user.Current()
 if err != nil {
-  log.Fatalf("Error getting current user: %v", err)
+  log.Printf("Error getting current user: %v", err)
 }
 ```
 
@@ -15,7 +15,6 @@ with
 import eh "github.com/bfollek/errhelp"
 
 usr, err := user.Current()
-eh.FatalIfError("getting current user", err)
+eh.LogIfError("getting current user", err)
 ```
 
-Better docs coming someday

@@ -1,23 +1,27 @@
 // Package errhelp provides simple helper functions to make golang error handling easier.
 package errhelp
 
-import "log"
+import (
+	"fmt"
+	"log"
+)
 
-// FatalIfError builds a message and calls log.Fatalf if err is not nil.
-// action is a string describing what was happening, e.g. "opening history file".
-func FatalIfError(action string, err error) {
+// LogIfError - If `err` is not null, builds a message and logs it.
+// `action` is a string describing what was happening, e.g. "opening history file".
+func LogIfError(action string, err error) {
 	if err != nil {
-		log.Fatalf("Error %s: %v", action, err)
+		log.Println(buildMsg(action, err))
 	}
 }
 
-// LogIfError builds a message and calls log.Printf if err is not null.
-// action is a string describing what was happening, e.g. "opening history file".
-// Returns true if err is not nil, else false.
-func LogIfError(action string, err error) bool {
+// FatalIfError - If `err` is not null, builds a message, logs it, and stops the program.
+// `action` is a string describing what was happening, e.g. "opening history file".
+func FatalIfError(action string, err error) {
 	if err != nil {
-		log.Printf("Error %s: %v", action, err)
-		return true
+		log.Fatal(buildMsg(action, err))
 	}
-	return false
+}
+
+func buildMsg(action string, err error) string {
+	return fmt.Sprintf("Error %s: %v", action, err)
 }

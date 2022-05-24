@@ -3,39 +3,36 @@ package errhelp
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"log"
 	"strings"
 	"testing"
 )
 
-func TestLogIfErrorWithError(t *testing.T) {
-	var logOutput bytes.Buffer
-	log.SetOutput(&logOutput)
-	err := errors.New("File not found")
-
-	expectedResult := true
-	result := LogIfError("opening file", err)
-	if expectedResult != result {
-		t.Errorf("Expected [%t], got [%t]\n", expectedResult, result)
-	}
-	s := strings.TrimSpace(logOutput.String())
-	expectedMessage := "Error opening file: File not found"
-	if !strings.HasSuffix(s, expectedMessage) {
-		t.Errorf("Expected log message to end with [%s], but the message is [%s]\n", expectedMessage, s)
-	}
-}
-
 func TestLogIfErrorWithNoError(t *testing.T) {
 	var logOutput bytes.Buffer
 	log.SetOutput(&logOutput)
 
-	expectedResult := false
-	result := LogIfError("opening file", nil)
-	if expectedResult != result {
-		t.Errorf("Expected [%t], got [%t]\n", expectedResult, result)
-	}
+	action := "testing"
+
+	LogIfError(action, nil)
 	s := strings.TrimSpace(logOutput.String())
 	if s != "" {
 		t.Errorf("Expected log message to be blank, but the message is [%s]\n", s)
+	}
+}
+
+func TestLogIfErrorWithError(t *testing.T) {
+	var logOutput bytes.Buffer
+	log.SetOutput(&logOutput)
+
+	action := "testing"
+	err := errors.New("Something bad happened")
+	expectedMessage := fmt.Sprintf("Error %s: %v", action, err)
+
+	LogIfError(action, err)
+	s := strings.TrimSpace(logOutput.String())
+	if !strings.HasSuffix(s, expectedMessage) {
+		t.Errorf("Expected log message to be [%s], but the message is [%s]\n", expectedMessage, s)
 	}
 }
