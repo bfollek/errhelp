@@ -18,3 +18,8 @@ usr, err := user.Current()
 eh.LogIfError("getting current user", err)
 ```
 
+## Available Helpers
+
+* FatalIfError
+* LogIfError
+
